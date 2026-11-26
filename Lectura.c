@@ -21,12 +21,12 @@ int main(int argc, char *argv[])
 
    // El proceso 0 lee de teclado la variable n
    if ( miId == 0) {
-   printf ("Dame un numero --> \n"); scanf ("%d", &n);
+        printf ("Dame un numero --> \n"); scanf ("%d", &n);
    for(int i = 1; i<numProcs; i++){
-   MPI_Send( &n, 1, MPI_INT, i, 33, MPI_COMM_WORLD);
+        MPI_Send( &n, 1, MPI_INT, i, 33, MPI_COMM_WORLD);
    }
    } else{
-   MPI_Recv(&n, 1, MPI_INT, 0, 33, MPI_COMM_WORLD, &s);
+        MPI_Recv(&n, 1, MPI_INT, 0, 33, MPI_COMM_WORLD, &s);
    }
    // Impresion de la variable n en todos los procesos
    printf ("Proceso <%d> con n = %d\n", miId, n);
