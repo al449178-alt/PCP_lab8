@@ -134,18 +134,23 @@ int main( int argc, char * argv[] ) {
         for( int i=0; i<numMensajes;i++){
             MPI_Send( ptrWorkspace, tam, MPI_BYTE, 1, 33, MPI_COMM_WORLD);
         }
-        MPI_Recv( ptrWorkspace, 0, MPI_BYTE, 1, 33, MPI_COMM_WORLD, &s)
+        MPI_Recv( ptrWorkspace, 0, MPI_BYTE, 1, 33, MPI_COMM_WORLD, &s);
         t2 = MPI_Wtime();
     } else if (miId==1){
         for(int i =0; i<numMensajes; i++){
-            MPI_Recv(ptrWorkspace, tam, MPI_BYTE, 0, 33, MPI_COMM_WORLD, &s)
+            MPI_Recv(ptrWorkspace, tam, MPI_BYTE, 0, 33, MPI_COMM_WORLD, &s);
         }
-        MPI_Send(ptrWorkspace, 0, MPI_BYTE, 0, 33, MPI_COMM_WORLD)
+        MPI_Send(ptrWorkspace, 0, MPI_BYTE, 0, 33, MPI_COMM_WORLD);
     }
 
     // Calculo de prestaciones: tiempoTotal, tiempoPorMensajeEnMicroseg,
     // anchoDeBandaEnMbs.
     // ... (C)
+    if( miId == 0){
+        tiempoTotal= t2-t1;
+        tiempoPorMensajeEnMicroseg = (tiempoTotal * 1e6) / numMensajes;
+        anchoDeBandaEnMbs = tam / tiempoPorMensajeEnMicroseg;
+    }
 
     // Escritura de resultados.
     if ( miId == 0 ) {
