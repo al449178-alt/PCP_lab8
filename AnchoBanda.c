@@ -129,6 +129,19 @@ int main( int argc, char * argv[] ) {
 
     // Bucle de envio/recepcion de "numMensajes" de tamanyo "tam" y toma de tiempos.
     // ... (B)
+    if( miId == 0){
+        t1=MPI_Wtime();
+        for( int i=0; i<numMensajes;i++){
+            MPI_Send( ptrWorkspace, tam, MPI_BYTE, 1, 33, MPI_COMM_WORLD);
+        }
+        MPI_Recv( ptrWorkspace, 0, MPI_BYTE, 1, 33, MPI_COMM_WORLD, &s)
+        t2 = MPI_Wtime();
+    } else if (miId==1){
+        for(int i =0; i<numMensajes; i++){
+            MPI_Recv(ptrWorkspace, tam, MPI_BYTE, 0, 33, MPI_COMM_WORLD, &s)
+        }
+        MPI_Send(ptrWorkspace, 0, MPI_BYTE, 0, 33, MPI_COMM_WORLD)
+    }
 
     // Calculo de prestaciones: tiempoTotal, tiempoPorMensajeEnMicroseg,
     // anchoDeBandaEnMbs.
